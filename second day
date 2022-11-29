@@ -53,8 +53,43 @@ namespace project3
 
          
 
+            //----to insert this  data into the gridview
+            //dataGridView1.Rows.Add("1", "Sovaa", "9800000000000", "ktm", "kist");
 
-            dataGridView1.Rows.Add("1", "Sovaa", "9800000000000", "ktm", "kist");
-}
+
+            //to insert data taking from the text box
+            String[] row = new String[5];
+            row[1] = textBox1.Text.ToString();
+            row[2] = textBox2.Text.ToString();
+            row[3] = textBox3.Text.ToString();
+            row[4] = textBox4.Text.ToString();
+            dataGridView1.Rows.Add(row);
+
+        }
+
+        private void textBox1_TextChanged(object sender, EventArgs e)
+        {
+
+            string name = textBox1.Text;
+
+        }
+
+        private void textBox2_TextChanged(object sender, EventArgs e)
+        {
+            string address = textBox2.Text;
+
+        }
+
+        private void textBox3_TextChanged(object sender, EventArgs e)
+        {
+            string contact = textBox3.Text;
+
+        }
+
+        private void textBox4_TextChanged(object sender, EventArgs e)
+        {
+            string college = textBox4.Text;
+
+        }
     }
 }
