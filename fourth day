@@ -1,0 +1,103 @@
+using System.Data;
+using System.Data.SqlClient;
+namespace project4
+{
+    public partial class Form1 : Form
+    {
+        SqlConnection con = new SqlConnection(
+           @"Data Source= .\SQLEXPRESS; 
+            Initial Catalog= employee;
+            user id =sa ; 
+            password =kist@123;");
+        public Form1()
+        {
+            
+            InitializeComponent();
+        }
+
+        private void textBox1_TextChanged(object sender, EventArgs e)
+        {
+            
+            string name = textBox1.Text;
+
+        }
+
+        private void textBox2_TextChanged(object sender, EventArgs e)
+        {
+            string address = textBox2.Text;
+
+        }
+
+        private void textBox3_TextChanged(object sender, EventArgs e)
+        {
+            string age = textBox3.Text;
+
+
+        }
+
+        private void textBox4_TextChanged(object sender, EventArgs e)
+        {
+            string contact = textBox4.Text;
+
+        }
+
+        private void button1_Click(object sender, EventArgs e)
+        {
+             con.Open();
+            //-------------------------------to show data on the gridview by concatenating-------------
+            //string query = "Insert into employee" + "( name,address,age,contact)" +
+            //    "values('" +
+            //    textBox1.Text +
+            //    "','" + textBox2.Text +
+            //    "','" + textBox3.Text +
+            //    "','" + textBox4.Text +
+            //    "')";
+
+
+            //SqlCommand cmd =con.CreateCommand();    
+            //cmd.CommandText= query;
+            //cmd.ExecuteNonQuery();
+            //con.Close();
+
+            //-----------------------to get data from the database directly and show on the gridview box 
+            //----------------------and also it will show the data of the textbox along with the database data----------------------------
+            string query = "select * from Employee2";
+            SqlCommand SqlCommand = new SqlCommand(query, con);
+            SqlDataAdapter sda = new SqlDataAdapter(SqlCommand);
+            DataTable dt = new DataTable();
+            sda.Fill(dt);
+            int sn = 1;
+            for(int i=0;i<dt.Rows.Count;i++)
+            {
+                string emp_name=dt.Rows[i]["name"].ToString();
+                string emp_address = dt.Rows[i]["address"].ToString();
+                string emp_age = dt.Rows[i]["age"].ToString();
+                string emp_contact = dt.Rows[i]["contact"].ToString();
+                dataGridView2.Rows.Add(sn++, emp_name, emp_address, emp_age, emp_contact);
+
+            }
+
+            //------------------------------inserting data using variable name---------------------------
+            string query1 = "Insert into Employee2" +
+               "(name,address,age,contact)" +
+               "values(@employee_name,@address,@age,@contact)";
+
+            SqlCommand cmd = con.CreateCommand();
+            cmd.CommandText = query1;
+            cmd.Parameters.AddWithValue("@employee_name",textBox1.Text);
+            cmd.Parameters.AddWithValue("@address", textBox2.Text);
+            cmd.Parameters.AddWithValue("@age", textBox3.Text);
+            cmd.Parameters.AddWithValue("@contact", textBox4.Text);
+            cmd.ExecuteNonQuery();
+            con.Close();
+
+            String[] row = new String[20];
+            row[0] = textBox1.Text.ToString();
+            row[1] = textBox2.Text.ToString();
+            row[2] = textBox3.Text.ToString();
+            row[3] = textBox4.Text.ToString();
+            dataGridView2.Rows.Add(row);
+
+        }
+    }
+}
